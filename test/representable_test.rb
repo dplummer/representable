@@ -223,7 +223,7 @@ class RepresentableTest < MiniTest::Spec
   class PopBand
     include Representable::JSON
     property :name
-    property :groupies
+    property :groupies, :include_nil => true
     attr_accessor :name, :groupies
   end
 
@@ -282,13 +282,20 @@ class RepresentableTest < MiniTest::Spec
     end
 
     it "does not write nil attributes" do
-      @band.groupies = nil
-      assert_equal({"name"=>"No One's Choice"}, @band.send(:create_representation_with, {}, {}, Representable::JSON))
+      @band.name = nil
+      assert_equal({"groupies"=>2}, @band.send(:create_representation_with, {}, {}, Representable::JSON))
     end
 
     it "writes false attributes" do
       @band.groupies = false
       assert_equal({"name"=>"No One's Choice","groupies"=>false}, @band.send(:create_representation_with, {}, {}, Representable::JSON))
+    end
+
+    it "includes the beer attribute with value nil" do
+      @band.groupies = nil
+      hash = @band.send(:create_representation_with, {}, {}, Representable::JSON)
+      assert_equal(true, hash.has_key?('groupies'))
+      assert_equal(nil, hash['groupies'])
     end
   end
   

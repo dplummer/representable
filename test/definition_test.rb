@@ -92,7 +92,18 @@ class DefinitionTest < MiniTest::Spec
     
     it "responds to #hash?" do
       assert @def.hash?
-      assert ! Representable::Definition.new(:songs).hash?
+    end
+  end
+
+  describe ":include_nil => true" do
+    it "responds to #include_nil" do
+      @def = Representable::Definition.new(:song)
+      assert_equal nil, @def.include_nil
+    end
+
+    it "accepts a value for #include_nil" do
+      @def = Representable::Definition.new(:song, :include_nil => true)
+      assert_equal true, @def.include_nil
     end
   end
 end

@@ -45,5 +45,9 @@ module Representable
     def attribute
       options[:attribute]
     end
+
+    def include_nil
+      options[:include_nil]
+    end
   end
 end

@@ -87,7 +87,7 @@ private
   end
   
   def write_fragment_for(bin, value, doc) # DISCUSS: move to Binding?
-    return if value.nil?
+    return if value.nil? && !bin.definition.include_nil
     bin.write(doc, value)
   end
   
@@ -130,6 +130,7 @@ private
       #   property :name, :from => :title
       #   property :name, :class => Name
       #   property :name, :default => "Mike"
+      #   property :name, :include_nil => true
       def property(name, options={})
         representable_attrs << definition_class.new(name, options)
       end
